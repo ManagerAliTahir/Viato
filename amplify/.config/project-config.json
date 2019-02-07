@@ -1,0 +1,20 @@
+{
+    "projectName": "viato",
+    "projectPath": "D:\\HCI\\viato",
+    "defaultEditor": "atom",
+    "frontendHandler": {
+        "javascript": "C:\\Users\\Ali Tahir\\AppData\\Roaming\\npm\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-frontend-javascript"
+    },
+    "javascript": {
+        "framework": "react-native",
+        "config": {
+            "SourceDir": "/",
+            "DistributionDir": "/",
+            "BuildCommand": "/",
+            "StartCommand": "react-native run-android"
+        }
+    },
+    "providers": {
+        "awscloudformation": "C:\\Users\\Ali Tahir\\AppData\\Roaming\\npm\\node_modules\\@aws-amplify\\cli\\node_modules\\amplify-provider-awscloudformation"
+    }
+}

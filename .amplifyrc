@@ -1,0 +1,14 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "viato-20181201102418-authRole",
+            "UnauthRoleArn": "arn:aws:iam::551996449671:role/viato-20181201102418-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::551996449671:role/viato-20181201102418-authRole",
+            "Region": "ap-south-1",
+            "DeploymentBucketName": "viato-20181201102418-deployment",
+            "UnauthRoleName": "viato-20181201102418-unauthRole",
+            "StackName": "viato-20181201102418",
+            "StackId": "arn:aws:cloudformation:ap-south-1:551996449671:stack/viato-20181201102418/d4d9a350-f528-11e8-84d0-0af78aa5c40c"
+        }
+    }
+}
