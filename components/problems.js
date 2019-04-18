@@ -20,6 +20,8 @@ import {
   Alert,
   ScrollView
 } from 'react-native';
+import * as Network from './Server.js'
+
 var ahmed=[
 {
   name:'recieved'}
@@ -32,27 +34,28 @@ class Problems extends Component {
         problems:[]
     };
 }
- async get(){
-   console.log("hi");
-   try {
-     await fetch('http://192.168.0.103:8080/request/byteacher',
-     {
-     method: 'POST',
-     headers: {
-       'Content-Type': 'application/json',
-     },
-     body: JSON.stringify({teacher:this.props.user}),
-   }).then((response) => response.json())
-    .then((responseJson) => {
-      this.setState({problems:responseJson},()=>{console.log(this.state.problems)});
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-}
+get(){
 
- catch (e) {
+  return new Promise(
+    function(resolve,reject){
+        console.log("calling method");
+        fetch(Network.ip + '/request/byteacher',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({teacher:this.props.user}),
+        }).then((response) => response.json())
+          .then((responseJson) => {
+            this.setState({problems:responseJson},()=>{console.log(this.state.problems)});
+          })
+          .catch((error) => {
+            reject(new Error('Unable to retrieve data'));
+          });
     }
+  )
+
 }
 
 render(){
@@ -98,7 +101,10 @@ render(){
       { list }
 </ScrollView>
 <View>
-<NavigationEvents onDidFocus={()=>this.get()}/>
+<NavigationEvents onDidFocus={()=>{
+  this.get()
+  .catch((reject)=>{Alert.alert('Error','Cannot connect to our Network, Please verify you have a working internet')})
+}}/>
 </View>
    </ImageBackground>
     );

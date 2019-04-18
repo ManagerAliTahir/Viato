@@ -7,6 +7,7 @@ import {
 import { GiftedChat } from 'react-native-gifted-chat'
 import avatar from './assets/avatar.png'
 import { connect } from 'react-redux'
+import * as Network from './Server.js'
 
 class chat extends Component {
 
@@ -40,7 +41,14 @@ class chat extends Component {
   onSend(messages = []) {
    this.setState(previousState => ({
      messages: GiftedChat.append(previousState.messages, messages),
-   }),()=>{this.post(messages,this.props.user,this.props.room)})
+   }),()=>{
+     return new Promise(
+        function(resolve,reject){
+          this.post(messages,this.props.user,this.props.room)
+          .catch((error)=>{reject(new Error("Error in sending function"))})
+        }
+      )
+   })
  }
 
 
@@ -48,21 +56,27 @@ class chat extends Component {
  post(messages,teacher,room)
  {
    console.log(JSON.stringify({teacher:teacher,messsages:messages[0].text,room:room}));
-   console.log(messages[0].text);
-  fetch('http://192.168.0.103:8080/message/send',
-  {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({teacher:teacher,messages:messages[0].text,room:room}),
-}).then((response) => {console.log(response);})
+
+   return new Promise(
+     function(resolve,reject){
+      fetch(Network.ip + '/message/send',
+      {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({teacher:teacher,messages:messages[0].text,room:room}),
+    }).then((response) => {console.log(response);})
+    .catch((error)=> {reject(new Error("Error in calling API"))}  )
+  })
  }
   render () {
     return (
       <GiftedChat
         messages={this.state.messages}
-        onSend={messages => this.onSend(messages)}
+        onSend={messages => {
+          this.onSend(messages)
+        }}
         user={{
           _id: 1,
         }}

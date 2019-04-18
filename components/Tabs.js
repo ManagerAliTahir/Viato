@@ -36,7 +36,7 @@ alignItems:'center',justifyContent:'center'}}
         </TouchableOpacity>
 <TouchableOpacity style={{height:'30%',width:'70%',backgroundColor:'transparent',marginTop:'-15%',marginLeft:'25%',justifyContent:'center'}}
             onPress={() => this.props.navigation.Profile} >
-                 <Text style={{marginLeft:'10%',marginTop:'10%',color:'white',fontSize:18}}>Ahmed Hussain</Text>
+                 <Text style={{marginLeft:'10%',marginTop:'10%',color:'white',fontSize:18}}>Ali Taher</Text>
 
         </TouchableOpacity>
         <View style={{borderWidth:0.3,borderColor:"white",marginTop:'8%', width:'80%', marginLeft:'10%'}}>

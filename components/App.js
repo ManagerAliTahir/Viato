@@ -18,7 +18,6 @@ class App extends React.Component {
 
 async componentDidMount(){
       SplashScreen.hide();
-  console.log("in alert");
   try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -51,8 +50,7 @@ this.setState({access:false})
 
 }
  render() {
-     console.log(this.props.loggedin);
-     if(this.props.loggedin && this.state.access){
+     if(true){
        return( <Tabs/> )
      }
      else if (this.state.access) {

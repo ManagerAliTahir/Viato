@@ -19,6 +19,8 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons"
 import LottieView from 'lottie-react-native';
 import { connect } from 'react-redux'
 import SplashScreen from 'react-native-splash-screen'
+import * as Network from './Server.js'
+
 class Reporting extends Component {
 
   static navigationOptions = {
@@ -66,32 +68,38 @@ room(){
 
     post(state)
     {
-      console.log(this.props);
       console.log(JSON.stringify(state));
-      fetch('http://192.168.0.103:8080/request/post',
-      {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        teacher:this.props.user,
-        room_number:this.props.room,
-        type:state.type,
-        quantity:state.quantity,
-        description:state.description,
-        icon:state.icon
-      }),
-    }).then((response) => {console.log(response);
-      if(response.ok)
-      {
-        this.setState({
-          done:false,
-          animate:true,
-        });
-      }
-
-    })
+      return new Promise(
+        function(resolve,reject){
+                fetch(Network.ip + '/request/post',
+                {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  teacher:this.props.user,
+                  room_number:this.props.room,
+                  type:state.type,
+                  quantity:state.quantity,
+                  description:state.description,
+                  icon:state.icon
+                }),
+              }).then((response) => {
+                console.log(response);
+                if(response.ok)
+                {
+                  this.setState({
+                    done:false,
+                    animate:true,
+                  });
+                }
+              })
+              .catch((error) => {
+                reject(new Error('Unable to retrieve data'));
+              });
+        }
+  )
 
     }
 
@@ -126,7 +134,10 @@ room(){
               onChangeText={(description) => this.setState({description})}
               value={this.state.description}
               />
-              <Button color="#802000" title='Send Request' onPress={()=>{this.setState({type:"Question Paper",icon:"instapaper"},()=>{post(this.state);});
+              <Button color="#802000" title='Send Request' onPress={()=>{this.setState({type:"Question Paper",icon:"instapaper"},()=>{
+                post(this.state)
+                .catch((reject)=>{Alert.alert('Error','Cannot connect to our Network, Please verify you have a working internet')})
+              });
 
           }}/>
               </View>
